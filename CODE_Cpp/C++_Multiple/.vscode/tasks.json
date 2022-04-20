@@ -3,17 +3,17 @@
     "tasks": [
         {
             "label": "Compile", // 任务名称，与launch.json的preLaunchTask相对应
-            "command": "gcc",   // 要使用的编译器，C++用g++
+            "command": "g++",   // 要使用的编译器，C++用g++
             "args": [
-                "${file}",
+                "${file}\\*.cpp", 
                 "-o",    // 指定输出文件名，不加该参数则默认输出a.exe，Linux下默认a.out
-                "${fileDirname}\\bin\\${fileBasenameNoExtension}.exe",
+                "${fileDirname}\\${fileBasenameNoExtension}.exe",
                 "-g",    // 生成和调试有关的信息
                 //"-m64", // 不知为何有时会生成16位应用而无法运行，加上此条可强制生成64位的
                 "-Wall", // 开启额外警告
                 "-static-libgcc",     // 静态链接libgcc，一般都会加上
                 "-fexec-charset=GBK", // 生成的程序使用GBK编码，不加这条会导致Win下输出中文乱码；繁体系统改成BIG5
-                "-std=c11", // 要用的语言标准，根据自己的需要修改。c++可用c++14
+                "-std=c++14", // 要用的语言标准，根据自己的需要修改。c++可用c++14
             ], // 编译的命令，其实相当于VSC帮你在终端中输了这些东西
             "type": "shell", // process是把预定义变量和转义解析后直接全部传给command；shell相当于先打开shell再输入命令，所以args还会经过shell再解析一遍
             "group": {
@@ -33,7 +33,7 @@
             "label": "run", 
             "type": "shell", 
             "dependsOn": "build", //任务依赖，因为要运行必须先构建，所以执行这个任务前必须先执行build任务，
-            "command": "${fileDirname}\\bin\\${fileBasenameNoExtension}.exe", //执行exe文件，只需要指定这个exe文件在哪里就好
+            "command": "${fileDirname}\\${fileBasenameNoExtension}.exe", //执行exe文件，只需要指定这个exe文件在哪里就好
             "group": {
                 "kind": "test", //这一组是‘测试’组，将run任务放在test组里方便我们用快捷键执行
                 "isDefault": true
@@ -42,7 +42,7 @@
                 "echo": true,
                 "reveal": "always",
                 "focus": true, //这个就设置为true了，运行任务后将焦点聚集到终端，方便进行输入
-                "panel": "new"
+                "panel": "shared"
             },
         }
     ]
